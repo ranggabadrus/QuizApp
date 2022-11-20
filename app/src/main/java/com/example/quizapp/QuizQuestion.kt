@@ -1,5 +1,6 @@
 package com.example.quizapp
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
@@ -30,6 +31,8 @@ class QuizQuestion : AppCompatActivity(), View.OnClickListener {
     private var mCorrectAnswer: Int = 0
     private var mSelectedOption: Int = 0
 
+    private var username: String? = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz_question)
@@ -50,7 +53,7 @@ class QuizQuestion : AppCompatActivity(), View.OnClickListener {
         tvFour?.setOnClickListener(this)
 
         bSubmit?.setOnClickListener(this)
-
+        username = intent.getStringExtra("username")
         getQuestion()
     }
 
@@ -136,6 +139,9 @@ class QuizQuestion : AppCompatActivity(), View.OnClickListener {
                         else -> {
                             val intent = Intent(this, ResultPage::class.java)
                             intent.putExtra("score", mCorrectAnswer)
+                            intent.putExtra("username", username)
+                            Log.e(TAG, "onCreate22222: ${username}", )
+
                             startActivity(intent)
                         }
                     }
@@ -182,13 +188,13 @@ class QuizQuestion : AppCompatActivity(), View.OnClickListener {
                                 ContextCompat.getDrawable(this, R.drawable.default_option_correct)
                         }
                     }
-                    if(mCurrentPosition===mQuestionList!!.size){
+                    if (mCurrentPosition === mQuestionList!!.size) {
                         bSubmit?.text = "FINISH"
-                    }else{
+                    } else {
                         bSubmit?.text = "NEXT QUESTION"
                     }
 
-                    mSelectedOption=0
+                    mSelectedOption = 0
                 }
             }
         }
